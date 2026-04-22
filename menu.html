@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menu - Golden Food</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+        }
+
+        nav {
+            background: #020617;
+            padding: 15px;
+        }
+
+        nav a {
+            color: white;
+            margin: 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            margin: 15px;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        button {
+            background: #f59e0b;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <a href="index.html">Accueil</a>
+    <a href="menu.html">Menu</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<h1>Notre Menu</h1>
+
+<div class="card">
+    <h2>Choisis ton plat</h2>
+
+    <select id="menu">
+        <option value="">-- Choisir --</option>
+        <option value="5">🍗 Poulet frit - 5$</option>
+        <option value="3">🍔 Burger - 3$</option>
+        <option value="4">🍚 Riz + viande - 4$</option>
+    </select>
+
+    <br><br>
+
+    <button onclick="ajouter()">Ajouter au panier</button>
+</div>
+
+<div class="card">
+    <h2>Panier</h2>
+    <p id="panier">Aucun article</p>
+    <p id="total">Total : 0$</p>
+
+    <button onclick="envoyer()">Commander sur WhatsApp</button>
+</div>
+
+<script>
+let total = 0;
+let commande = [];
+
+function ajouter() {
+    let menu = document.getElementById("menu");
+    let prix = menu.value;
+    let texte = menu.options[menu.selectedIndex].text;
+
+    if (prix === "") {
+        alert("Choisis un plat");
+        return;
+    }
+
+    total += parseInt(prix);
+    commande.push(texte);
+
+    document.getElementById("panier").innerHTML = commande.join("<br>");
+    document.getElementById("total").innerHTML = "Total : " + total + "$";
+}
+
+function envoyer() {
+    if (commande.length === 0) {
+        alert("Panier vide");
+        return;
+    }
+
+    let message = "Bonjour, je veux commander:%0A";
+
+    for (let i = 0; i < commande.length; i++) {
+        message += "- " + commande[i] + "%0A";
+    }
+
+    message += "Total: " + total + "$";
+
+    let numero = "18290000000"; // remplace par le vrai numéro
+
+    let url = "https://wa.me/" + numero + "?text=" + message;
+
+    window.open(url);
+}
+</script>
+
+</body>
+</html>
